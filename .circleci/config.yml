@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  build:
+  build_deploy:
     machine:
       image: ubuntu-2004:202010-01
     steps:
@@ -11,25 +11,10 @@ jobs:
             sudo apt-get update
             sudo apt install python3-pip
             sudo pip3 install awsebcli --upgrade
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-  deploy:
-    machine:
-        image: ubuntu-2004:202010-01
-    steps:
-      - attach_workspace:
-          at: .
-      - checkout
       - run: aws s3 sync ./app/build s3://testweb.github.io
+
 workflows:
-  build_test_deploy:
+  version: 2
+  execute_bulk:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
-      - deploy:
-          requires:
-            - test
+      - build_deploy
