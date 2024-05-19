@@ -15,7 +15,7 @@ jobs:
       - run: aws s3 sync ./app/build s3://testweb.github.io
 
 workflows:
-	version: 2
-	execute_bulk:
-		jobs:
-		- build_deploy
+  version: 2
+  execute_bulk:
+    jobs:
+      - build_deploy
